@@ -25,6 +25,12 @@ Inside of **main.go** line **111** replace with your own credentials:
 db, err = sql.Open("mysql", "myUsername:myPassword@tcp(127.0.0.1:3306)/myDatabase")
 ```
 
+Finally run as:
+```go
+go run main.go
+```
+
+
 
 
 
