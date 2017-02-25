@@ -1,6 +1,11 @@
 
 ### How To Run 
 
+####TODO
+    -Logout
+    -Sessions
+    -Integration with Google Sign-in
+
 Create a new database with a users table 
 
 ```sql
