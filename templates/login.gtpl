@@ -78,7 +78,7 @@
           <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
           <div class="demo-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
             
-            <h3>Login!</h3>
+            <img src="/resources/images/android.gif">
             <p {{if eq .Status "error"}} class="error"{{end}}>{{.Message}}</p>
             <form method="POST" action="/login">
              <div class="mdl-textfield mdl-js-textfield">
