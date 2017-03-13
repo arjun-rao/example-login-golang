@@ -21,13 +21,13 @@
     <title>Login!</title>
 
     <!-- Add to homescreen for Chrome on Android -->
-    <meta name="mobile-web-demo-capable" content="yes">
+    <meta name="mobile-web-web-capable" content="yes">
     <link rel="icon" sizes="192x192" href="resources/images/android-desktop.png">
 
     <!-- Add to homescreen for Safari on iOS -->
-    <meta name="demole-mobile-web-demo-capable" content="yes">
-    <meta name="demole-mobile-web-demo-status-bar-style" content="black">
-    <meta name="demole-mobile-web-demo-title" content="Material Design Lite">
+    <meta name="demole-mobile-web-web-capable" content="yes">
+    <meta name="demole-mobile-web-web-status-bar-style" content="black">
+    <meta name="demole-mobile-web-web-title" content="Material Design Lite">
     <link rel="demole-touch-icon-precomposed" href="resources/images/ios-desktop.png">
 
     
@@ -46,8 +46,8 @@
    
   </head>
   <body>
-    <div class="demo-layout mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100">
-      <header class="demo-header mdl-layout__header mdl-layout__header--scroll mdl-color--grey-100 mdl-color-text--grey-800">
+    <div class="web-layout mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100">
+      <header class="web-header mdl-layout__header mdl-layout__header--scroll mdl-color--grey-100 mdl-color-text--grey-800">
         <div class="mdl-layout__header-row">
           <span class="mdl-layout-title">Login</span>
           <div class="mdl-layout-spacer"></div>
@@ -62,11 +62,11 @@
           </div>
         </div>
       </header>
-      <div class="demo-ribbon"></div>
-      <main class="demo-main mdl-layout__content">
-        <div class="demo-container mdl-grid">
+      <div class="web-ribbon"></div>
+      <main class="web-main mdl-layout__content">
+        <div class="web-container mdl-grid">
           <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
-          <div class="demo-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell <mdl-cell--4></mdl-cell--4>-col">
+          <div class="web-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell <mdl-cell--4></mdl-cell--4>-col">
             
             <img src="/resources/images/android.gif">
             <p {{if eq .Status "error"}} class="error"{{end}}>{{.Message}}</p>
@@ -81,9 +81,11 @@
              </div><br>
                 <input type="submit" class="rc-button rc-button-submit" value="Sign In">
             </form>
+            <br>
+            <a class="web-link mdl-button--primary" href="/signup">Student Signup</a>
           </div>
         </div>
-        <footer class="demo-footer mdl-mini-footer">
+        <footer class="web-footer mdl-mini-footer">
           <div class="mdl-mini-footer--left-section">
             <ul class="mdl-mini-footer--link-list">
               <li><a href="#">Help</a></li>
