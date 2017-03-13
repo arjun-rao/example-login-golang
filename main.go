@@ -124,8 +124,8 @@ func main() {
 	http.HandleFunc("/login", loginPage)
 	http.HandleFunc("/", homePage)
 	http.Handle("/resources/", http.StripPrefix("/resources/", http.FileServer(http.Dir("resources"))))
-	fmt.Println("Listening on 127.0.0.1:8080")
-	err := http.ListenAndServe(":8080", nil) // setup listening port
+	fmt.Println("Listening on 127.0.0.1:9090")
+	err := http.ListenAndServe(":9090", nil) // setup listening port
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
