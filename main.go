@@ -19,7 +19,7 @@ var err error
 
 func signupPage(res http.ResponseWriter, req *http.Request) {
 	if req.Method != "POST" {
-		t, _ := template.ParseFiles("templates/signup.gtpl")
+		t, _ := template.ParseFiles("templates/signup.html")
 		t.Execute(res, nil)
 		return
 	}
@@ -72,7 +72,7 @@ func loginPage(res http.ResponseWriter, req *http.Request) {
 		}
 
 		//http.ServeFile(res, req, "login.html")
-		t, _ := template.ParseFiles("templates/login.gtpl")
+		t, _ := template.ParseFiles("templates/login.html")
 		t.Execute(res, varmap)
 		return
 	}
@@ -103,7 +103,7 @@ func loginPage(res http.ResponseWriter, req *http.Request) {
 }
 
 func homePage(res http.ResponseWriter, req *http.Request) {
-	t, _ := template.ParseFiles("templates/index.gtpl")
+	t, _ := template.ParseFiles("templates/index.html")
 	t.Execute(res, nil)
 }
 
