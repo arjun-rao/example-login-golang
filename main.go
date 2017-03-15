@@ -7,14 +7,17 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 	"golang.org/x/crypto/bcrypt"
+	"google.golang.org/appengine"
 )
 
 var db *sql.DB
+
 var err error
 
 func signupPage(res http.ResponseWriter, req *http.Request) {
@@ -30,25 +33,25 @@ func signupPage(res http.ResponseWriter, req *http.Request) {
 	var user string
 
 	err := db.QueryRow("SELECT username FROM users WHERE username=?", username).Scan(&user)
-
+	log.Println(err)
 	switch {
 	case err == sql.ErrNoRows:
 		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 		if err != nil {
-			http.Error(res, "Server error, unable to create your account.", 500)
+			http.Error(res, "Hash error, unable to create your account.", 500)
 			return
 		}
 
 		_, err = db.Exec("INSERT INTO users(username, password) VALUES(?, ?)", username, hashedPassword)
 		if err != nil {
-			http.Error(res, "Server error, unable to create your account.", 500)
+			http.Error(res, "Insert error, unable to create your account.", 500)
 			return
 		}
 
 		res.Write([]byte("User created!"))
 		return
 	case err != nil:
-		http.Error(res, "Server error, unable to create your account.", 500)
+		http.Error(res, "Existing user error, unable to create your account.", 500)
 		return
 	default:
 		http.Redirect(res, req, "/", 301)
@@ -56,6 +59,7 @@ func signupPage(res http.ResponseWriter, req *http.Request) {
 }
 
 func loginPage(res http.ResponseWriter, req *http.Request) {
+
 	if req.Method != "POST" {
 
 		message := "Enter username and password to login!"
@@ -80,8 +84,7 @@ func loginPage(res http.ResponseWriter, req *http.Request) {
 	req.ParseForm()
 	username := html.EscapeString(req.FormValue("username"))
 	password := html.EscapeString(req.FormValue("password"))
-	fmt.Println(time.Now().Format(time.RFC850), "User Login Attempt by: ", username)
-
+	log.Println(time.Now().Format(time.RFC850), "User Login Attempt by: ", username)
 	var databaseUsername string
 	var databasePassword string
 
@@ -108,7 +111,16 @@ func homePage(res http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	db, err = sql.Open("mysql", "jharvard:crimson@tcp(127.0.0.1:3306)/GoJudge")
+
+	debugmode := "true"
+	if debugmode == "true" {
+		db, err = sql.Open("mysql", "jharvard:crimson@tcp(localhost:3306)/GoJudge")
+	} else {
+		connectionName := mustGetenv("CLOUDSQL_CONNECTION_NAME")
+		user := mustGetenv("CLOUDSQL_USER")
+		password := os.Getenv("CLOUDSQL_PASSWORD") // NOTE: password may be empty
+		db, err = sql.Open("mysql", fmt.Sprintf("%s:%s@cloudsql(%s)/GoJudge", user, password, connectionName))
+	}
 
 	if err != nil {
 		panic(err.Error())
@@ -124,9 +136,18 @@ func main() {
 	http.HandleFunc("/login", loginPage)
 	http.HandleFunc("/", homePage)
 	http.Handle("/resources/", http.StripPrefix("/resources/", http.FileServer(http.Dir("resources"))))
-	fmt.Println("Listening on 127.0.0.1:9090")
-	err := http.ListenAndServe(":9090", nil) // setup listening port
+	fmt.Println("Listening on 127.0.0.1:8080")
+	err := http.ListenAndServe(":9000", nil) // setup listening port
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
+	appengine.Main()
+}
+
+func mustGetenv(k string) string {
+	v := os.Getenv(k)
+	if v == "" {
+		log.Panicf("%s environment variable not set.", k)
+	}
+	return v
 }
